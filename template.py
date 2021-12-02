@@ -3,11 +3,18 @@ from functools import cache
 import math
 import re
 import itertools
-import os
+import sys
 
-dir_p = os.path.dirname(os.path.realpath(__file__))
 
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
+def lmap(f, it):
+    return list(map(f, it))
+
+
+def ints(txt):
+    return lmap(int, txt)
+
+
+with open(sys.argv[1]) as f:
     input = f.read()
 
 
