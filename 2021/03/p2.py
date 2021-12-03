@@ -25,20 +25,15 @@ def solve(input):
 
     def calc(choose, pref):
         selected = xs
-        for i in range(l - 1, -1, -1):
+        i = l - 1
+        while i >= 0 and len(selected) > 1:
             cnt = [0, 0]
             for x in selected:
                 cnt[(x >> i) & 1] += 1
-            f = 0
-            if choose(cnt[1], cnt[0]):
-                f = 1
-            elif choose(cnt[0], cnt[1]):
-                f = 0
-            else:
-                f = pref
+            f = pref if cnt[0] == cnt[1] else int(choose(cnt[1], cnt[0]))
             selected = [x for x in selected if ((x >> i) & 1) == f]
-            if len(selected) == 1:
-                return selected[0]
+            i -= 1
+        return selected[0]
 
     return calc(operator.gt, 1) * calc(operator.lt, 0)
 
