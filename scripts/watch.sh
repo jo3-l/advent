@@ -1,4 +1,4 @@
-source ./config.txt
+source $(realpath $0 | xargs dirname)/config.txt
 
 padded_day=$(printf %02s $DAY)
 project_dir=$(realpath $0 | xargs dirname | xargs dirname)
