@@ -1,0 +1,10 @@
+{
+  "quiet": true,
+  "debug": false,
+  "execMap": {
+    "py": "py"
+  },
+  "events": {
+    "start": "cls || clear"
+  }
+}
