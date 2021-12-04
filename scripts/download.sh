@@ -1,9 +1,7 @@
 source ./config.txt
 
-padded_day=$(printf %2s $DAY | tr ' ' "0")
-full_path=$(realpath $0)
-script_dir=$(dirname $full_path)
-project_dir=$(dirname $script_dir)
+padded_day=$(printf %02s $DAY)
+project_dir=$(realpath $0 | xargs dirname | xargs dirname)
 file=$project_dir/$YEAR/$padded_day/input.txt
 
 if [ ! -e "$file" ]; then
