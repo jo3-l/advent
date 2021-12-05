@@ -39,10 +39,10 @@ cur_dir = os.path.dirname(os.path.realpath(__file__))
 
 print("SAMPLE OUTPUT")
 with open(os.path.join(cur_dir, "sample.txt")) as f:
-    print(solve(f.read()))
+    print(solve(f.read().strip()))
 
 print("---")
 
 print("OUTPUT")
 with open(os.path.join(cur_dir, "input.txt")) as f:
-    print(solve(f.read()))
+    print(solve(f.read().strip()))
