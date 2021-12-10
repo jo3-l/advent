@@ -1,11 +1,3 @@
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
-
-
 def make_year_validator(lo, hi):
     return lambda v: len(v) == 4 and all(c.isdigit() for c in v) and lo <= int(v) <= hi
 
@@ -48,6 +40,3 @@ def solve(input):
         if len(seen) == 7:
             cnt += 1
     return cnt
-
-
-print(solve(input.rstrip("\n")))

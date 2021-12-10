@@ -1,14 +1,4 @@
-from collections import defaultdict, Counter, deque
-from functools import cache
-import math
-import re
-import itertools
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
+from collections import defaultdict
 
 
 def solve(input):
@@ -24,6 +14,3 @@ def solve(input):
         dp[i] = sum(aux[xs[i - 1] - d] for d in range(1, 4))
         aux[xs[i - 1]] += dp[i]
     return dp[len(xs)]
-
-
-print(solve(input.rstrip("\n")))

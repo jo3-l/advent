@@ -1,23 +1,11 @@
-from collections import defaultdict, Counter, deque
-from functools import cache
-import math
-import re
-import itertools
-import os
+def lmap(f, it):
+    return list(map(f, it))
 
-dir_p = os.path.dirname(os.path.realpath(__file__))
 
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
+def ints(it):
+    return lmap(int, it)
 
 
 def solve(input):
-    xs = list(map(int, input.split()))
-    cnt = 0
-    for a, b in zip(xs, xs[1:]):
-        if b > a:
-            cnt += 1
-    return cnt
-
-
-print(solve(input.rstrip("\n")))
+    xs = ints(input.split())
+    return sum(1 for a, b in zip(xs, xs[1:]) if b > a)

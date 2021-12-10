@@ -1,11 +1,5 @@
-import os
 from collections import defaultdict
 from functools import cache
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
 
 
 def solve(input):
@@ -26,6 +20,3 @@ def solve(input):
         return cnt
 
     return go("shiny gold") - 1
-
-
-print(solve(input.rstrip("\n")))

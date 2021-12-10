@@ -1,16 +1,3 @@
-from collections import defaultdict, Counter, deque
-from functools import cache
-import math
-import re
-import itertools
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
-
-
 def next_state(cur):
     m, n = len(cur), len(cur[0])
     nxt = [row[:] for row in cur]
@@ -47,6 +34,3 @@ def solve(input):
             if state[i][j] == "#":
                 cnt += 1
     return cnt
-
-
-print(solve(input.rstrip("\n")))

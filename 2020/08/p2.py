@@ -1,11 +1,3 @@
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
-
-
 def run(insts):
     seen = set()
     inst = 0
@@ -37,6 +29,3 @@ def solve(input):
         if ok:
             return acc
         inst[0] = op
-
-
-print(solve(input.rstrip("\n")))

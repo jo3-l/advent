@@ -1,11 +1,3 @@
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
-
-
 def solve(input):
     cnt = 0
     for s in input.split("\n"):
@@ -17,6 +9,3 @@ def solve(input):
         if int(pw[lo] == c) ^ int(pw[hi] == c):
             cnt += 1
     return cnt
-
-
-print(solve(input.rstrip("\n")))

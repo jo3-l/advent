@@ -1,11 +1,3 @@
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
-
-
 def solve(input):
     insts = input.split()
     seen = set()
@@ -22,6 +14,3 @@ def solve(input):
         else:
             inst += int(by)
     return acc
-
-
-print(solve(input.rstrip("\n")))

@@ -1,11 +1,3 @@
-import os
-
-dir_p = os.path.dirname(os.path.realpath(__file__))
-
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
-
-
 def solve(input):
     matrix = input.split("\n")
     m, n = len(matrix), len(matrix[0])
@@ -20,6 +12,3 @@ def solve(input):
             j += dx
         p *= cnt
     return p
-
-
-print(solve(input.rstrip("\n")))

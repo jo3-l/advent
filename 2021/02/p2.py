@@ -10,8 +10,8 @@ def lmap(f, it):
     return list(map(f, it))
 
 
-def ints(txt):
-    return lmap(int, txt)
+def ints(it):
+    return lmap(int, it)
 
 
 with open(sys.argv[1]) as f:

@@ -1,18 +1,13 @@
-from collections import defaultdict, Counter, deque
-from functools import cache
-import math
-import re
-import itertools
-import os
+def lmap(f, it):
+    return list(map(f, it))
 
-dir_p = os.path.dirname(os.path.realpath(__file__))
 
-with open(os.path.join(dir_p, "input.txt"), "r") as f:
-    input = f.read()
+def ints(it):
+    return lmap(int, it)
 
 
 def solve(input):
-    xs = list(map(int, input.split()))
+    xs = ints(input.split())
     cnt = 0
     for i in range(len(xs) - 3):
         window = sum(xs[i : i + 3])
@@ -20,6 +15,3 @@ def solve(input):
         if nxt > window:
             cnt += 1
     return cnt
-
-
-print(solve(input.rstrip("\n")))
