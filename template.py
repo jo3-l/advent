@@ -37,12 +37,17 @@ def solve(input):
 
 cur_dir = os.path.dirname(os.path.realpath(__file__))
 
+
+def normalize_str(s):
+    return "\n".join([l.strip() for l in s.strip().splitlines()])
+
+
 print("SAMPLE OUTPUT")
-with open(os.path.join(cur_dir, "sample.txt")) as f:
-    print(solve(f.read().strip()))
+with open(os.path.join(cur_dir, "sample.txt")) as file:
+    print(solve(normalize_str(file.read())))
 
 print("---")
 
 print("OUTPUT")
-with open(os.path.join(cur_dir, "input.txt")) as f:
-    print(solve(f.read().strip()))
+with open(os.path.join(cur_dir, "input.txt")) as file:
+    print(solve(normalize_str(file.read())))
