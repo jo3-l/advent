@@ -4,28 +4,21 @@ from collections import Counter
 def solve(input):
     paras = input.split("\n\n")
     tmpl = paras[0]
+    insert = dict(map(lambda line: line.split(" -> "), paras[1].split("\n")))
+
     pairs = Counter()
     for a, b in zip(tmpl, tmpl[1:]):
         pairs[a + b] += 1
 
-    insert = {}
-    for line in paras[1].split("\n"):
-        p, c = line.split(" -> ")
-        insert[p] = c
-
     first, last = tmpl[0:2], tmpl[-2:]
     for _ in range(10):
         nxt_pairs = Counter()
-        for p, n in pairs.items():
-            if p in insert:
-                nxt_pairs[p[0] + insert[p]] += n
-                nxt_pairs[insert[p] + p[1]] += n
-            else:
-                nxt_pairs[p] += n
-        if first in insert:
-            first = first[0] + insert[first]
-        if last in insert:
-            last = insert[last] + last[1]
+        for (a, c), n in pairs.items():
+            b = insert[a + c]
+            nxt_pairs[a + b] += n
+            nxt_pairs[b + c] += n
+        first = first[0] + insert[first]
+        last = insert[last] + last[1]
         pairs = nxt_pairs
 
     ctr = Counter()
