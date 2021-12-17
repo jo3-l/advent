@@ -106,7 +106,3 @@ def solve(input: str):
 
     parser = Parser()
     return sum_versions(parser.parse(input))
-
-
-with open("input.txt") as f:
-    print(solve(f.read().strip()))

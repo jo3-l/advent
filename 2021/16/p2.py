@@ -87,11 +87,7 @@ class Parser:
 def solve(input: str):
     def eval_packet(packet: Packet) -> int:
         REDUCERS = [sum, math.prod, min, max]
-        COMPARATORS = {
-            5: operator.gt,
-            6: operator.lt,
-            7: operator.eq,
-        }
+        COMPARATORS = [operator.lt, operator.eq, operator.gt]
 
         if isinstance(packet, LitPacket):
             return packet.val
@@ -100,13 +96,9 @@ def solve(input: str):
             return REDUCERS[packet.hdr.type_id](
                 eval_packet(sub_packet) for sub_packet in sub_packets
             )
-        return COMPARATORS[packet.hdr.type_id](
+        return COMPARATORS[packet.hdr.type_id - 4](
             eval_packet(sub_packets[0]), eval_packet(sub_packets[1])
         )
 
     parser = Parser()
     return eval_packet(parser.parse(input))
-
-
-with open("input.txt") as f:
-    print(solve(f.read().strip()))
