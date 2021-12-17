@@ -2,15 +2,6 @@ from dataclasses import dataclass
 from typing import Optional, Union, Iterable
 import itertools
 
-
-class InvalidSubPacket(Exception):
-    ...
-
-
-class UnexpectedEOF(Exception):
-    ...
-
-
 Packet = Union["LitPacket", "OpPacket"]
 
 
@@ -73,9 +64,6 @@ class Parser:
                 sub_packets.append(sub_packet)
                 total_sub_packet_len += sub_packet_len
                 packet_len += sub_packet_len
-
-            if total_sub_packet_len != expected_total_sub_packet_len:
-                raise InvalidSubPacket
         else:
             expected_sub_packet_cnt = self._read(11)
             packet_len += 11
@@ -89,9 +77,7 @@ class Parser:
     def _read(self, n: int = 1) -> int:
         bits = 0
         for _ in range(n):
-            b = next(self.iter, None)
-            if b is None:
-                raise UnexpectedEOF
+            b = next(self.iter)
             bits = (bits << 1) | b
         return bits
 
