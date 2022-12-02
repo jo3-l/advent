@@ -1,6 +1,6 @@
-def solve(lines):
+def solve(data):
     all_calories = []
-    for items in lines.split("\n\n"):
+    for items in data.split("\n\n"):
         calories = sum(map(int, items.split()))
         all_calories.append(calories)
     all_calories.sort()
