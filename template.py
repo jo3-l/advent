@@ -1,53 +1,36 @@
-from collections import defaultdict, Counter, deque
-from functools import cache
-import math
-import re
 import itertools
+import math
 import os
-from heapq import heappush, heappop
+import re
+from collections import Counter, defaultdict, deque
+from functools import cache
+from heapq import heappop, heappush
+
+ONLY_SAMPLE = False
 
 adj4 = ((0, -1), (0, 1), (1, 0), (-1, 0))
 adj8 = ((1, 0), (-1, 0), (0, 1), (0, -1), (1, -1), (1, 1), (-1, 1), (-1, -1))
 
-
-def lmap(f, it):
-    return list(map(f, it))
-
-
-def ints(it):
-    return lmap(int, it)
-
-
-def make_indexer(lst, default=None):
-    def get(*indices):
-        cur = lst
-        for i in indices:
-            if 0 <= i < len(cur):
-                cur = cur[i]
-            else:
-                return default
-        return cur
-
-    return get
-
-
-def solve(input):
+def solve(data: str):
     ...
 
 
 cur_dir = os.path.dirname(os.path.realpath(__file__))
 
-
-def normalize_str(s):
-    return "\n".join([l.strip() for l in s.strip().splitlines()])
+def normalize_input(data):
+    # splitlines will get rid of unwanted trailing spaces.
+    return "\n".join(data.splitlines())
 
 
 print("SAMPLE OUTPUT")
 with open(os.path.join(cur_dir, "sample.txt")) as file:
-    print(solve(normalize_str(file.read())))
+    data = normalize_input(file.read())
+    print(solve(data))
 
-print("---")
+if not ONLY_SAMPLE:
+    print("---")
 
-print("OUTPUT")
-with open(os.path.join(cur_dir, "input.txt")) as file:
-    print(solve(normalize_str(file.read())))
+    print("OUTPUT")
+    with open(os.path.join(cur_dir, "input.txt")) as file:
+        data = normalize_input(file.read())
+        print(solve(data))
