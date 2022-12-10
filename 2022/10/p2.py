@@ -30,7 +30,3 @@ def solve(data: str):
 
     for row in img:
         print("".join(row))
-
-
-with open("input.txt") as f:
-    solve(f.read())
