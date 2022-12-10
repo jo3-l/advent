@@ -1,4 +1,4 @@
-def solve(data):
+def solve(data: str):
     all_calories = []
     for items in data.split("\n\n"):
         calories = sum(map(int, items.split()))

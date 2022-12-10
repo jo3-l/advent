@@ -1,17 +1,21 @@
-from collections import namedtuple
-
-SectionRange = namedtuple("SectionRange", ["start", "end"])
+from dataclasses import dataclass
 
 
-def parse_assignment(assignment):
-    lo, _, hi = assignment.partition("-")
-    return SectionRange(int(lo), int(hi))
+@dataclass
+class SectionRange:
+    lo: int
+    hi: int
+
+    @staticmethod
+    def parse(s: str):
+        lo, hi = map(int, s.split("-"))
+        return SectionRange(lo, hi)
 
 
 def solve(data):
     ans = 0
     for line in data.splitlines():
-        a, b = map(parse_assignment, line.split(","))
-        if min(a.end, b.end) >= max(a.start, b.start):
+        a, b = map(SectionRange.parse, line.split(","))
+        if min(a.hi, b.hi) >= max(a.lo, b.lo):
             ans += 1
     return ans

@@ -1,79 +1,114 @@
+import itertools
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Dict, List, Union
+from typing import Union
 
 FsEntry = Union["File", "Directory"]
 
+
 @dataclass
 class File:
-	name: str
-	size: int
+    name: str
+    size: int
 
 
 @dataclass
 class Directory:
-	name: str
-	children: Dict[str, "FsEntry"] = field(default_factory=dict)
+    name: str
+    children: dict[str, "FsEntry"] = field(default_factory=dict)
 
-	@cached_property
-	def size(self) -> int:
-		total_size = 0
-		for entry in self.children.values():
-			total_size += entry.size
-		return total_size
+    def all_subdirs(self) -> Iterator["Directory"]:
+        for child in self.children.values():
+            if isinstance(child, Directory):
+                yield child
+                yield from child.all_subdirs()
+
+    @cached_property
+    def size(self) -> int:
+        total_size = 0
+        for entry in self.children.values():
+            total_size += entry.size
+        return total_size
+
+
+CLI_PROMPT = "$ "
+
 
 @dataclass
 class Command:
-	name: str
-	args: List[str]
-	stdout: List[str]
+    name: str
+    args: list[str]
+    stdout: list[str]
+
+    @staticmethod
+    def iter(cli_output: str):
+        lines = cli_output.splitlines()
+        i = 0
+        while i < len(lines):
+            name, *args = lines[i].removeprefix(CLI_PROMPT).split()
+            stdout: list[str] = []
+            i += 1
+            while i < len(lines) and not lines[i].startswith(CLI_PROMPT):
+                stdout.append(lines[i])
+                i += 1
+            yield Command(name, args, stdout)
+
+
+class FsState:
+    def __init__(self):
+        self.root = Directory("/")
+        self.cur_dir_path: list[str] = []
+
+    def update(self, cmd: Command):
+        if cmd.name == "cd":
+            self._process_cd(cmd.args[0])
+        else:
+            self._process_ls(cmd.stdout)
+
+    def _process_cd(self, path: str):
+        match path:
+            case "/":
+                self.cur_dir_path.clear()
+            case "..":
+                self.cur_dir_path.pop()
+            case sub_dir:
+                self.cur_dir_path.append(sub_dir)
+
+    def _process_ls(self, entries: list[str]):
+        cur_dir = self._get_cur_dir()
+        for entry in entries:
+            if entry.startswith("dir "):
+                name = entry.removeprefix("dir ")
+                cur_dir.children[name] = Directory(name)
+            else:
+                size, name = entry.split()
+                cur_dir.children[name] = File(name, int(size))
+
+    def _get_cur_dir(self):
+        cur_dir = self.root
+        for subdir_name in self.cur_dir_path:
+            subdir = cur_dir.children[subdir_name]
+            assert isinstance(subdir, Directory)
+            cur_dir = subdir
+        return cur_dir
+
 
 MAX_SIZE = 100_000
 
 
 def solve(data: str):
-	cmds: list[Command] = []
-	lines = data.splitlines()
-	i = 0
-	while i < len(lines):
-		cmd, *args = lines[i].removeprefix("$ ").split()
-		i += 1
-		start = i
-		while i < len(lines) and not lines[i].startswith("$ "):
-			i += 1
-		cmds.append(Command(cmd, args, lines[start:i]))
-	
-	root = Directory("/")
-	cur_path: list[str] = []
-	for cmd in cmds:
-		if cmd.name == "cd":
-			match cmd.args[0]:
-				case "/":
-					cur_path.clear()
-				case "..":
-					cur_path.pop()
-				case dir_name:
-					cur_path.append(dir_name)
-		else:
-			cur_dir = root
-			for dir_name in cur_path:
-				cur_dir: Directory = cur_dir.children[dir_name] # type: ignore
-			for entry in cmd.stdout:
-				if entry.startswith("dir"):
-					dir_name = entry.removeprefix("dir ")
-					cur_dir.children[dir_name] = Directory(dir_name)
-				else:
-					size, name = entry.split()
-					cur_dir.children[name] = File(name, int(size))
-	
-	ans = 0
-	def process(entry: FsEntry):
-		nonlocal ans
-		if isinstance(entry, Directory):
-			if entry.size <= MAX_SIZE:
-				ans += entry.size
-			for child in entry.children.values():
-				process(child)
+    state = FsState()
+    for cmd in Command.iter(data):
+        print(cmd)
+        state.update(cmd)
 
-	process(root)
-	return ans
+    return sum(
+        dir.size
+        for dir in itertools.chain([state.root], state.root.all_subdirs())
+        if dir.size <= MAX_SIZE
+    )
+
+
+with open("input.txt") as f:
+    print(solve(f.read()))
