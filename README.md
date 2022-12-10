@@ -1,7 +1,1 @@
-# Advent of Code
-
-Ho ho ho! 🎅
-
-# Note
-
-These are not necessarily the solutions I use in-contest; typically I spend some time refactoring my code afterward.
+My [Advent of Code](https://adventofcode.com/) solutions.
