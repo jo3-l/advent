@@ -1,6 +1,7 @@
+#!/usr/bin/env bash
 source $(realpath $0 | xargs dirname)/config.txt
 
-padded_day=$(printf %02s $DAY)
+padded_day=$(printf %02d $DAY)
 project_dir=$(realpath $0 | xargs dirname | xargs dirname)
 file=$project_dir/$YEAR/$padded_day/input.txt
 
