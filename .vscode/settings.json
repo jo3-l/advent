@@ -1,4 +1,3 @@
 {
-	"python.formatting.provider": "black",
-	"python.linting.flake8Enabled": false
+	"python.analysis.typeCheckingMode": "basic"
 }

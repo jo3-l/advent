@@ -11,11 +11,13 @@ ONLY_SAMPLE = False
 adj4 = ((0, -1), (0, 1), (1, 0), (-1, 0))
 adj8 = ((1, 0), (-1, 0), (0, 1), (0, -1), (1, -1), (1, 1), (-1, 1), (-1, -1))
 
+
 def solve(data: str):
     ...
 
 
 cur_dir = os.path.dirname(os.path.realpath(__file__))
+
 
 def normalize_input(data):
     # splitlines will get rid of unwanted trailing spaces.

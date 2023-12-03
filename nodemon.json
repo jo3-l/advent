@@ -2,9 +2,9 @@
 	"quiet": true,
 	"debug": false,
 	"execMap": {
-		"py": "py"
+		"py": "python3"
 	},
 	"events": {
-		"start": "cls || clear"
+		"start": "clear"
 	}
 }
