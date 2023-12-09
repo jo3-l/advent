@@ -7,7 +7,7 @@ file=$project_dir/$YEAR/$padded_day/input.txt
 
 if [ ! -e "$file" ]; then
 	curl -A "jo3-l <https://github.com/jo3-l>" -s https://adventofcode.com/$YEAR/day/$DAY/input --cookie "session=$AOC_SESSION" > $file
-	echo "Successfully downloaded"
+	less $file
 else
-	echo "Input already downloaded; skipping"
+	echo "input already downloaded; skipping"
 fi

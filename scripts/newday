@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+source $(realpath $0 | xargs dirname)/config.txt
+
+padded_day=$(printf %02d $DAY)
+folder=$YEAR/$padded_day
+mkdir -p $folder
+
+project_dir=$(realpath $0 | xargs dirname | xargs dirname)
+cp $project_dir/template.py $folder/solution.py
+touch $folder/sample.txt
