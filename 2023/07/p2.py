@@ -13,10 +13,13 @@ class HandType(IntEnum):
     HIGH_CARD = auto()
 
 
+WILDCARD = "J"
+
+
 def classify(hand: str):
     ctr = Counter(hand)
-    if "J" in ctr:
-        del ctr["J"]
+    if WILDCARD in ctr:
+        del ctr[WILDCARD]
     counts = sorted(ctr.values(), reverse=True)
 
     def matches(expected: list[int]):
@@ -49,12 +52,8 @@ LABEL_ORDER = "AKQT98765432J"
 def solve(data: str):
     hands = [line.split() for line in data.splitlines()]  # (hand, bid)
 
-    def get_sort_key(hand):
+    def sort_key(hand):
         return (classify(hand), tuple(map(LABEL_ORDER.index, hand)))
 
-    hands.sort(key=lambda item: get_sort_key(item[0]), reverse=True)
-    total_winnings = 0
-    for i, (_hand, bid) in enumerate(hands):
-        print(i + 1, _hand)
-        total_winnings += int(bid) * (i + 1)
-    return total_winnings
+    hands.sort(key=lambda item: sort_key(item[0]), reverse=True)
+    return sum(int(bid) * (i + 1) for i, (hand, bid) in enumerate(hands))

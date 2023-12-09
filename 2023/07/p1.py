@@ -39,11 +39,8 @@ LABEL_ORDER = "AKQJT98765432"
 def solve(data: str):
     hands = [line.split() for line in data.splitlines()]  # (hand, bid)
 
-    def get_sort_key(hand):
+    def sort_key(hand):
         return (classify(hand), tuple(map(LABEL_ORDER.index, hand)))
 
-    hands.sort(key=lambda item: get_sort_key(item[0]), reverse=True)
-    total_winnings = 0
-    for i, (_hand, bid) in enumerate(hands):
-        total_winnings += int(bid) * (i + 1)
-    return total_winnings
+    hands.sort(key=lambda item: sort_key(item[0]), reverse=True)
+    return sum(int(bid) * (i + 1) for i, (hand, bid) in enumerate(hands))
