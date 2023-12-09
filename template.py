@@ -107,7 +107,7 @@ def solve(data: str):
     for line in lines:
         pass
 
-    return 5
+    return None
 
 
 ####################
