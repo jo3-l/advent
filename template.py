@@ -1,3 +1,4 @@
+# ruff: noqa: F401
 import itertools
 import math
 import os
