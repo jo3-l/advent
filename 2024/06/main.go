@@ -16,6 +16,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer in.Close()
 
 	var grid []string
 	sc := bufio.NewScanner(in)
