@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"iter"
 	"os"
 	"sync"
 	"sync/atomic"
@@ -40,7 +41,12 @@ func part1(grid []string) {
 
 	g := newGuardState(grid, npos)
 	g.Go(start.i, start.j, 0 /* up */)
-	fmt.Println("part 1:", g.CalcNumVisited())
+
+	ans := 0
+	for range g.Visited() {
+		ans += 1
+	}
+	fmt.Println("part 1:", ans)
 }
 
 func part2(grid []string, workers int) {
@@ -49,15 +55,14 @@ func part2(grid []string, workers int) {
 		panic("no start position found")
 	}
 
+	g0 := newGuardState(grid, npos)
+	g0.Go(start.i, start.j, 0 /* up */)
+
 	work := make([][]pos, workers)
 	w := 0
-	for i, row := range grid {
-		for j := range len(row) {
-			if row[j] == '.' {
-				work[w] = append(work[w], pos{i, j})
-				w = (w + 1) % workers
-			}
-		}
+	for pos := range g0.Visited() {
+		work[w] = append(work[w], pos)
+		w = (w + 1) % workers
 	}
 
 	var ans atomic.Int32
@@ -133,14 +138,16 @@ func (g *guardState) Go(i, j, d int) (cycle bool) {
 	return g.Go(ni, nj, d)
 }
 
-func (g *guardState) CalcNumVisited() int {
-	n := 0
-	for _, v := range g.visited {
-		if v > 0 {
-			n++
+func (g *guardState) Visited() iter.Seq[pos] {
+	return func(yield func(pos) bool) {
+		for i, v := range g.visited {
+			if v > 0 {
+				if !yield(g.vidx2pos(i)) {
+					return
+				}
+			}
 		}
 	}
-	return n
 }
 
 func (g *guardState) inBounds(i, j int) bool {
@@ -162,4 +169,7 @@ func (g *guardState) markVisited(i, j, d int) (already bool) {
 }
 func (g *guardState) vidx(i, j int) int {
 	return i*g.C + j
+}
+func (g *guardState) vidx2pos(vidx int) pos {
+	return pos{vidx / g.C, vidx % g.C}
 }
