@@ -70,9 +70,3 @@ def generate_points(start: Vec2, step: Vec2):
 
 def in_bounds(map: list[str], pt: Vec2):
     return 0 <= pt.y < len(map) and 0 <= pt.x < len(map[pt.y])
-
-
-with open("input.txt") as f:
-    map, antennas_by_freq = parse(f.read())
-    print(f"part 1: {part1(map, antennas_by_freq)}")
-    print(f"part 2: {part2(map, antennas_by_freq)}")
