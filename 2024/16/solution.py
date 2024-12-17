@@ -57,6 +57,8 @@ class WorkState:
                 if parent not in opt.parents:
                     opt.parents.add(parent)
                     self._push(item)
+            else:
+                self._push(item)
         elif item.cost < opt.cost:
             opt.cost = item.cost
             opt.parents.clear()
@@ -76,21 +78,21 @@ class WorkState:
 
     def min_cost_to(self, i: int, j: int) -> Optional[tuple[int, list[State]]]:
         min_cost = INF
-        min_states = []
-        for d in range(4):
-            state = State(i, j, d)
+        end_states = []
+        for dir in range(4):
+            state = State(i, j, dir)
             cost = self.best[state].cost
             if cost != INF:
                 if cost == min_cost:
-                    min_states.append(state)
+                    end_states.append(state)
                 elif cost < min_cost:
                     min_cost = cost
-                    min_states = [state]
+                    end_states = [state]
 
         if min_cost == INF:
             return None
         else:
-            return min_cost, min_states
+            return min_cost, end_states
 
     def backtrack(self, end_states: list[State]) -> set[State]:
         seen = set(end_states)

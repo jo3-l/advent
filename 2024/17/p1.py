@@ -8,7 +8,6 @@ A, B, C = 0, 1, 2
 def solve(data: str):
     reg_data, prog = data.split("\n\n")
     regs = [int(n) for n in register_re.findall(reg_data)]
-    regs[0] = 236548287712877
     prog = list(map(int, prog.removeprefix("Program: ").split(",")))
 
     out = []
