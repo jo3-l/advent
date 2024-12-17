@@ -5,6 +5,7 @@ import os
 import re
 import sys
 import pyperclip
+import z3
 from collections import Counter, defaultdict, deque
 from functools import cache
 from heapq import heappop, heappush
