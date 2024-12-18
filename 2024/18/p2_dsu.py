@@ -57,7 +57,7 @@ def solve(data: str, *, exit: Point):
 
     corrupted = set()
     dsu = UnionFind(exit.x, exit.y)
-    for line in data.splitlines():
+    for i, line in enumerate(data.splitlines()):
         x, y = map(int, line.split(","))
         new = Point(x, y)
         corrupted.add(new)
