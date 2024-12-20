@@ -24,7 +24,7 @@ class UnionFind:
         a_rep = self.representative(a)
         b_rep = self.representative(b)
         if a_rep != b_rep:
-            if self.size(a_rep) > self.size(b_rep):
+            if self.size(a_rep) < self.size(b_rep):
                 a_rep, b_rep = b_rep, a_rep
 
             self._parent[b_rep.x][b_rep.y] = a_rep
@@ -68,3 +68,7 @@ def solve(data: str, *, exit: Point):
         if dsu.any_connected(top_edge, bottom_edge):
             return x, y
     assert False, "can always get to exit"
+
+
+with open("input.txt") as f:
+    print(solve(f.read(), exit=Point(70, 70)))
