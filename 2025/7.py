@@ -52,7 +52,6 @@ def solve2_bfs(s: str):
             q.append((0, c))
             waysto[0][c] = 1
 
-    splits = 0
     while q:
         L = len(q)
         new = set()
@@ -70,8 +69,6 @@ def solve2_bfs(s: str):
                 continue
 
             if grid[r + 1][c] == "^":
-                # split
-                splits += 1
                 add(r + 1, c - 1, r, c)
                 add(r + 1, c + 1, r, c)
             else:
